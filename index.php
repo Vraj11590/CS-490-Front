@@ -1,6 +1,11 @@
 <?php 
+	session_start();
 
+	if($_SESSION['token']){
+		echo "redirect";
+	}
 ?>
+
 <html>
 
 	<center>
@@ -12,11 +17,16 @@
 	</center>
  
 
+	<div style="padding-top:10px;padding-left:30px;margin:auto;border:1px solid black; width:250px; ">
+			<center><font color="red">
+			<?php 
+				if(isset($_GET['message'])){
+					echo $_GET['message'];
+				}
 
-
-
-	<div style="padding-top:10px;padding-left:30px;margin:auto;border:1px solid black; width:250px; height:100px;  ">
-
+			?>
+			</font>
+			</center>
 		<form method="POST" name="login_form" id="login_form" action="login.php">
 
 			User: <input type="text" name="ucid" id="ucid" required>
@@ -30,8 +40,6 @@
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;
-
-
 			<input type="submit"/>
 
 		</form>
@@ -41,14 +49,7 @@
 			<a href="about.php"> Sign Up </a>
 			&nbsp;&nbsp;&nbsp;&nbsp;
 			&nbsp;
-			<font color="red">
-			<?php 
-				if(isset($_GET['message'])){
-					echo $_GET['message'];
-				}
 
-			?>
-			</font>
 
 	</div>
 

@@ -1,0 +1,8 @@
+<?php 
+	
+	$GLOBALS['loggedIn'] = false;
+
+	
+
+
+?>

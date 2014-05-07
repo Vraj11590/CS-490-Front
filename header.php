@@ -1,3 +1,7 @@
+<?php 
+	
+
+?>
 <html>
 <head>
 	<script src="jquery.js"> </script>
@@ -21,7 +25,7 @@
 
 <div style="float:right;">
 
-		<a href="logout.php?s=<?php echo $_GET['session']; ?>"> Log Out </a>
+		<a href="logout.php"> Log Out </a>
 </div>
 </div>
 

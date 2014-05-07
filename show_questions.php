@@ -96,7 +96,7 @@
 	</div>
 
 	<div id="cart" style="float:left;">
-		Quiz Cart: 0 items
+		Quiz Cart: <a href="#">0 questions</a> 
 	</div>
 
 </div>

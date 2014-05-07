@@ -1,24 +1,17 @@
 <?php 
-
 	include 'curl.php';
 
-	$s = $_GET['session'];
-	
-	//destroy session in front
-	session_destroy($s);
-	//destroy session in middle
-	$ob = array('sid'=>$s);
-	$o = do_logout($ob);
+	session_start();
 
-	if ($o->status == "out"){
-		header("Location: http://front.codingcat.vj/index.php");
+	//use curl to destroy session in middle
+	$ucid = $_SESSION['token'];
+	echo $ucid;
+
+	$d = array("token"=>$ucid);
+	$do = do_logout($d);
+	if($do->message == "logout_success"){
+		session_destroy();
+		echo "done";
 	}
-	else{
-		echo "some error";
-	}
-
-
-
-
 
 ?>
