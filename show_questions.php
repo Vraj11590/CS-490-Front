@@ -1,4 +1,5 @@
 <?php 
+session_start();
 	include 'curl.php';
 	include 'header.php';
 
@@ -9,6 +10,7 @@
 	//get default when page loads
 	$all = pull_questions(array('flag'=>'Pull Questions', 'filter'=>$filter));
 	$questions = json_decode($all);	 	
+
 
 	if(isset($_POST['submit'])) 
 	{ 
@@ -40,6 +42,8 @@
 		$all = pull_questions(array('flag'=>'Pull Questions', 'filter'=>$filter));
 		$questions = json_decode($all);	    
 	}
+
+
 
 
 	?>
@@ -95,9 +99,34 @@
 
 	</div>
 
+<?php
+	if(isset($_GET['qid'])){
+		//add this qid to cart.
+		$id = $_GET['qid'];
+		//echo "Adding".$id;
+
+		if(!isset($_SESSION['quiz_cart'])){
+			$_SESSION['quiz_cart'] = array($id);
+		}else{
+			$temp = $_SESSION['quiz_cart'];
+			if (in_array($id, $temp)) {
+				echo "This question is already in the cart!";
+			}else{
+				array_push($temp,$id);
+			}
+			$_SESSION['quiz_cart'] = $temp;
+		}
+		//print_r($_SESSION['quiz_cart']);
+
+	}
+?>
+
 	<div id="cart" style="float:left;">
-		Quiz Cart: <a href="#">0 questions</a> 
+		Quiz Cart: <a href="cart.php"> <?php $a = $_SESSION['quiz_cart']; echo count($a);  ?> questions</a> 
 	</div>
+
+<?php
+?>
 
 </div>
 
@@ -106,13 +135,16 @@
 	
 	<p> Filter: &nbsp; <b> <?php echo $current_filter; ?> </b> </p>
 
-	
+
 	<?php 
 			foreach ($questions as $key => $value) {
 					echo $questions[$key]->Question." ";
 					echo $questions[$key]->Difficulty." ";
-					echo $questions[$key]->CreatedBy."<br/>";
-
+					echo $questions[$key]->CreatedBy." ";
+					$id = $questions[$key]->QuestionID;
+	?>
+			<a href="<?php echo $_SERVER['PHP_SELF'].'?qid='.$id; ?>" name="<?php echo $id; ?>"> Add to Cart </a><br/>
+	<?php
 			}
 	?>
 

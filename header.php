@@ -1,5 +1,6 @@
 <?php 
 	
+	session_start();
 
 ?>
 <html>
@@ -25,7 +26,7 @@
 
 <div style="float:right;">
 
-		<a href="logout.php"> Log Out </a>
+		<a href="logout.php"> Log Out (<?php echo $_SESSION['name']; ?>) </a>
 </div>
 </div>
 

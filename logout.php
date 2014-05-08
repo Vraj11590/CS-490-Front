@@ -3,6 +3,7 @@
 
 	session_start();
 
+	session_destroy();
 	//use curl to destroy session in middle
 	$ucid = $_SESSION['token'];
 	echo $ucid;

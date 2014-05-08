@@ -43,7 +43,14 @@ include 'header.php';
 					 );
 
 		$result = create_question($data);
-		print_r(json_decode($result));
+		$do = json_decode($result);
+		if($do->Flag == "Success"){
+			header("Location: http://front.codingcat.vj/make_question.php?m=added");
+		}
+		if($do->Flag == "Failed"){
+			header("Location: http://front.codingcat.vj/make_question.php?m=failed");
+		}
+
 	}
 
 	if(isset($_POST['MCsubmit']))
@@ -74,11 +81,74 @@ include 'header.php';
 						'Question_name' => $unique_name
 					 );
 
-		//print_r($data);
-		 $result = create_question($data);
-		 print_r(json_decode($result));
+		$result = create_question($data);
+		$do = json_decode($result);
+		if($do->Flag == "Success"){
+			header("Location: http://front.codingcat.vj/make_question.php?m=added");
+		}
+		if($do->Flag == "Failed"){
+			header("Location: http://front.codingcat.vj/make_question.php?m=failed");
+		}
+
 	}
 
+	if(isset($_POST['TFsubmit']))
+	{
+		$Description=$_POST['Q_desc'];
+		$correct = $_POST['tf_ans'];
+		$difficulty = $_POST['diff'];
+		$createdBy = $_SESSION['token'];
+		$createBy_Name = $_SESSION['name'];
+		$type = "TF";
+		$unique_name = $_POST['Question_name'];		
+
+		$data = array(	'action' =>  'QuestionMakeTF',
+						'Description' => $Description,
+						'Correct' => $correct,
+						'Difficulty'=>$difficulty,
+						'CreateorName'=>$createBy_Name,
+						'CreatorUCID'=>$createdBy,
+						'Question_name' => $unique_name
+					 );
+		$result = create_question($data);
+		$do = json_decode($result);
+		if($do->Flag == "Success"){
+			header("Location: http://front.codingcat.vj/make_question.php?m=added");
+		}
+		if($do->Flag == "Failed"){
+			header("Location: http://front.codingcat.vj/make_question.php?m=failed");
+		}
+	
+	}
+
+	if(isset($_POST['FBsubmit'])){
+		$Description=$_POST['Q_desc'];
+		$correct = $_POST['fb_ans'];
+		$difficulty = $_POST['diff'];
+		$createdBy = $_SESSION['token'];
+		$createBy_Name = $_SESSION['name'];
+		$type = "TF";
+		$unique_name = $_POST['Question_name'];		
+
+		$data = array(	'action' =>  'QuestionMakeFB',
+						'Description' => $Description,
+						'Correct' => $correct,
+						'Difficulty'=>$difficulty,
+						'CreateorName'=>$createBy_Name,
+						'CreatorUCID'=>$createdBy,
+						'Question_name' => $unique_name
+					 );
+		$result = create_question($data);
+		$do = json_decode($result);
+		if($do->Flag == "Success"){
+			header("Location: http://front.codingcat.vj/make_question.php?m=added");
+		}
+		if($do->Flag == "Failed"){
+			header("Location: http://front.codingcat.vj/make_question.php?m=failed");
+		}
+		
+
+	}
 
 
 ?>
@@ -115,7 +185,21 @@ include 'header.php';
 <?php 
 	if($type == "none"){
 ?>
-	The questions that you create will be added to the questions bank! You can create a quiz using the link above.	
+	<?php 
+		if(isset($_GET['m'])){
+			$m = $_GET['m'];
+			echo $m;
+			if($m == "added"){
+				echo "<p> <b> Your question has be successfully added! </b> </p>";
+			}
+			if($m == "failed"){
+				echo "<p> <b> The question you are trying to add already exists! </b> </p>";
+			}			
+		}
+	?>
+
+	
+	The questions that you create will be added to the questions bank! You can view the question by clicking "All Questions" above.
 <?php
 	}
 ?>
@@ -175,7 +259,39 @@ include 'header.php';
 <?php 
 	if($type == "TF"){
 ?>
-	<p> Create a true of false</p>
+	<center> <b> <u> <p> Create a True or False</p> </b> </u> </center>
+	<p> Type your true/false statement in the box below and then select the correct choice.
+	<form name="TFFORM" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+			<textarea name="Q_desc" cols="70"></textarea>
+			<hr/>
+		<center>
+			<p> The statement above is :-
+			<select name="tf_ans">
+				<option value="true">True</option>
+				<option value="false">False</option>
+			</select>
+		<br/>
+		Select the difficulty of this question : 
+		<select name = "diff">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+		</select>			
+		<br/>
+		Name identifier : <input type = "text" name="Question_name" placeholder="ex: Object Oriented Concept "/>
+
+		</center>
+		<hr/>
+		<input style="float:right;" type="submit" name="TFsubmit" value="Create this Question"/>
+	</form>
+
 <?php
 	}
 ?>
@@ -241,7 +357,36 @@ include 'header.php';
 <?php 
 	if($type == "FB"){
 ?>
-	<p> Create a Fill in the blank </p>
+	<center> <b> <u> <p> Create a Fill in the blank</p> </b> </u> </center>
+	<p> Type your fill in the blank, and leave a * where you want the ____(blank) to appear. </p>
+	<form name="FBFORM" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+			<textarea name="Q_desc" cols="70"></textarea>
+			<hr/>
+		<center>
+			<p> The correct answer is :-
+				<input type = "text" name="fb_ans" placeholder=""/>
+		<br/>
+		Select the difficulty of this question : 
+		<select name = "diff">
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+			<option value="4">4</option>
+			<option value="5">5</option>
+			<option value="6">6</option>
+			<option value="7">7</option>
+			<option value="8">8</option>
+			<option value="9">9</option>
+			<option value="10">10</option>
+		</select>			
+		<br/>
+		Name identifier : <input type = "text" name="Question_name" placeholder="ex: Object Oriented Concept "/>
+
+		</center>
+		<hr/>
+		<input style="float:right;" type="submit" name="FBsubmit" value="Create this Question"/>
+	</form>
+
 <?php
 	}
 ?>
