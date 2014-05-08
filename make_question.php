@@ -188,7 +188,6 @@ include 'header.php';
 	<?php 
 		if(isset($_GET['m'])){
 			$m = $_GET['m'];
-			echo $m;
 			if($m == "added"){
 				echo "<p> <b> Your question has be successfully added! </b> </p>";
 			}
